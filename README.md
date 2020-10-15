@@ -6,7 +6,7 @@
 
 <p align="center"></p>
 <h1 align="center">
-    <a href="https://nodejs.org/en/">🔗 Nodejs</a>
+    <a href="https://reactnative.dev/">🔗 React Native</a>
     <a href="https://www.sqlite.org/">🧠 Expo</a>
 </h1>
 <p align="center">🚀 O projeto está sendo desenvolvimento conforme o WorkShop Next Level Week.</p>
@@ -17,7 +17,7 @@
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/) e [Expo](https://expo.io/).
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [React Native](https://reactnative.dev/) e [Expo](https://expo.io/).
 Além disto, é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/).
 
 ### 🎲 Rodando nossa aplicação
@@ -41,7 +41,7 @@ $ expo start
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- [Nodejs](https://nodejs.org/en/)
+- [React Native](https://reactnative.dev/)
 - [Expo](https://expo.io/)
 
 ### Autor
