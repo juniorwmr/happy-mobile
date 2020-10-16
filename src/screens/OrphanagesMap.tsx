@@ -30,6 +30,9 @@ export default function OrphanagesMap() {
   function handleNavigateToOrphanageDetails() {
     navigation.navigate('OrphanageDetails');
   }
+  function HandlenavigationToCreateOrphanage() {
+    navigation.navigate('SelectMapPosition');
+  }
 
   if (!fontsLoaded) {
     return null;
@@ -69,7 +72,7 @@ export default function OrphanagesMap() {
 
         <TouchableOpacity
           style={styles.createOrphanageButton}
-          onPress={() => {}}
+          onPress={HandlenavigationToCreateOrphanage}
         >
           <Feather name="plus" size={20} color="#fff" />
         </TouchableOpacity>
