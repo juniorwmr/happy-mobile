@@ -2,6 +2,8 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { Header } from './components/Header';
+
 import OrphanagesMap from './screens/OrphanagesMap';
 import OrphanageDetails from './screens/OrphanageDetails';
 import SelectMapPosition from './screens/CreateOrphanage/SelectMapPosition';
@@ -15,32 +17,28 @@ export default function Routes() {
       <Navigator>
         <Screen
           options={{
-            headerTitle: 'Mapa de Orfanatos',
-            headerTitleAlign: 'center',
+            headerShown: false,
           }}
           name="OrphanagesMap"
           component={OrphanagesMap}
         />
         <Screen
           options={{
-            headerTitle: 'Detalhes',
-            headerTitleAlign: 'center',
+            header: () => <Header showCancel={false} title="Detalhes" />,
           }}
           name="OrphanageDetails"
           component={OrphanageDetails}
         />
         <Screen
           options={{
-            headerTitle: 'Posição no Mapa',
-            headerTitleAlign: 'center',
+            header: () => <Header title="Posição no Mapa" />,
           }}
           name="SelectMapPosition"
           component={SelectMapPosition}
         />
         <Screen
           options={{
-            headerTitle: 'Cadastro',
-            headerTitleAlign: 'center',
+            header: () => <Header title="Cadastro" />,
           }}
           name="OrphanageData"
           component={OrphanageData}
