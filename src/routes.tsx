@@ -31,7 +31,7 @@ export default function Routes() {
         />
         <Screen
           options={{
-            header: () => <Header title="Posição no Mapa" />,
+            header: () => <Header title="Selecionar no mapa" />,
           }}
           name="SelectMapPosition"
           component={SelectMapPosition}
