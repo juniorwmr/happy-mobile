@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  AsyncStorage,
-  Dimensions,
-  Image,
-  StyleSheet,
-  View,
-  Animated,
-  Easing,
-} from 'react-native';
+import { Dimensions, Image, StyleSheet, View, Animated } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';

@@ -11,6 +11,8 @@ web-build/
 yarn.lock
 .expo-shared
 
+.env.json
+
 # macOS
 .DS_Store
 

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { API_URL } from '../../.env.json';
+
 export const api = axios.create({
-  baseURL: 'https://happy-acre-backend.herokuapp.com/',
+  baseURL: API_URL,
 });

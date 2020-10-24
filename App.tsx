@@ -40,10 +40,10 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   } else {
-    return onboarding ? (
-      <Routes />
-    ) : (
+    return !onboarding ? (
       <HappyOnboarding onDoneFunction={onDoneFunction} />
+    ) : (
+      <Routes />
     );
   }
 }

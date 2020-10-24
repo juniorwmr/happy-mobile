@@ -40,7 +40,7 @@ export default function OrphanagesMap() {
           longitudeDelta: 0.06,
         }}
       >
-        {orphanages.map((orphanage, index) => (
+        {orphanages?.map((orphanage, index) => (
           <Marker
             key={index}
             tracksViewChanges={false}

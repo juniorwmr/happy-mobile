@@ -2,18 +2,11 @@ import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'react-native-linear-gradient';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  Alert,
-  Animated,
-} from 'react-native';
+import { View, StyleSheet, Dimensions, Text, Alert, Image } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
-import MapView, { Marker, MapEvent, LatLng } from 'react-native-maps';
+import MapView, { Marker, MapEvent } from 'react-native-maps';
 
 import mapMarkerImg from '../../images/map-marker.png';
 import InstructionMap from '../../components/InstructionMap';
@@ -49,8 +42,8 @@ export default function SelectMapPosition() {
         Alert.alert('Permission to access location was denied');
       }
 
-      const location = await Location.getCurrentPositionAsync({});
-      setPosition(location.coords);
+      const { coords } = await Location.getCurrentPositionAsync();
+      setPosition(coords);
     }
     MapInstructionsVerify();
     permissionToGetCurrentLocation();
@@ -62,7 +55,7 @@ export default function SelectMapPosition() {
         zIndex={zIndexInstructions}
         handleClick={handleClickMap}
       />
-      {position.latitude !== 0 ? (
+      {position?.latitude !== 0 ? (
         <View style={styles.container}>
           <MapView
             initialRegion={{
@@ -75,7 +68,6 @@ export default function SelectMapPosition() {
             onPress={handleSelectMapPosition}
           >
             <Marker
-              icon={mapMarkerImg}
               coordinate={{
                 latitude: position.latitude,
                 longitude: position.longitude,
