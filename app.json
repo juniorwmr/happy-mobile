@@ -1,14 +1,15 @@
 {
   "expo": {
-    "name": "happy-mobile",
+    "name": "Happy",
     "slug": "happy",
     "version": "1.0.0",
+    "privacy": "public",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2AB5D1"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,6 +20,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.juniorwmr.happy",
+      "versionCode": 1
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#FFF"
     }
   }
 }
