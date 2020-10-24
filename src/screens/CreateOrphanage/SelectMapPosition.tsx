@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
+import { View, StyleSheet, Dimensions, Text, Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
@@ -23,6 +24,18 @@ export default function SelectMapPosition() {
     const { coordinate } = nativeEvent;
     setPosition(coordinate);
   }
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission to access location was denied');
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setPosition(location.coords);
+    })();
+  }, []);
 
   return (
     <View style={styles.container}>
