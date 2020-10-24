@@ -15,21 +15,10 @@ import { useRoute } from '@react-navigation/native';
 import mapMarkerImg from '../images/map-marker.png';
 import { RectButton } from 'react-native-gesture-handler';
 import { api } from '../services/api';
+import { IOrphanage } from '../repositories/orphanages';
 
 interface IOrphanageDetailsRouteParams {
   id: number;
-}
-
-interface IOrphanage {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  about: string;
-  instructions: string;
-  opening_hours: string;
-  open_on_weekends: boolean;
-  images: [{ id: number; url: string }];
 }
 
 export default function OrphanageDetails() {
@@ -49,7 +38,7 @@ export default function OrphanageDetails() {
     return <View />;
   }
 
-  function handleGoToRoutes(latitude: string, longitude: string) {
+  function handleGoToRoutes(latitude: number, longitude: number) {
     Linking.openURL(
       `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`
     );
@@ -59,7 +48,7 @@ export default function OrphanageDetails() {
     <ScrollView style={styles.container}>
       <View style={styles.imagesContainer}>
         <ScrollView horizontal pagingEnabled>
-          {orphanage.images.map((image) => (
+          {orphanage.images.map((image: any) => (
             <Image
               key={image.id}
               style={styles.image}
