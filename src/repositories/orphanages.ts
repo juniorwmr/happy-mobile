@@ -14,6 +14,14 @@ export interface IOrphanage {
 }
 
 export default {
+  async index() {
+    try {
+      return await api.get<IOrphanage[]>(`${URL_USERS}`);
+    } catch (err) {
+      console.error(`Your request (POST) to ${URL_USERS} FAILED. \n\n` + err);
+    }
+  },
+
   async create(data: FormData) {
     try {
       return await api.post<IOrphanage>(`${URL_USERS}`, data);
