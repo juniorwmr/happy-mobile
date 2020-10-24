@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
+import { LinearGradient } from 'react-native-linear-gradient';
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 import { View, StyleSheet, Dimensions, Text, Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -7,17 +9,14 @@ import { RectButton } from 'react-native-gesture-handler';
 import MapView, { Marker, MapEvent, LatLng } from 'react-native-maps';
 
 import mapMarkerImg from '../../images/map-marker.png';
+import InstructionMap from '../../components/InstructionMap';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useOrphanageData } from '../../contexts/orphanagedata';
 
 export default function SelectMapPosition() {
   const navigation = useNavigation();
-  const [position, setPosition] = useState<LatLng>({
-    latitude: 0,
-    longitude: 0,
-  });
-
-  function handleNextStep() {
-    navigation.navigate('OrphanageData', { position });
-  }
+  const [zIndexInstructions, setZIndexInstructions] = useState(0);
+  const { position, setPosition } = useOrphanageData();
 
   function handleSelectMapPosition(event: MapEvent) {
     const { nativeEvent } = event;
@@ -25,46 +24,71 @@ export default function SelectMapPosition() {
     setPosition(coordinate);
   }
 
+  async function handleClickMap() {
+    setZIndexInstructions(0);
+    await AsyncStorage.setItem('map-instructions', 'done');
+  }
+
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
+    async function MapInstructionsVerify() {
+      const mapInstructions = await AsyncStorage.getItem('map-instructions');
+      if (!mapInstructions) {
+        setZIndexInstructions(1);
+      }
+    }
+    async function permissionToGetCurrentLocation() {
+      const { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('Permission to access location was denied');
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      const location = await Location.getCurrentPositionAsync({});
       setPosition(location.coords);
-    })();
+    }
+    MapInstructionsVerify();
+    permissionToGetCurrentLocation();
   }, []);
 
   return (
-    <View style={styles.container}>
-      <MapView
-        initialRegion={{
-          latitude: -9.9470472,
-          longitude: -67.8156968,
-          latitudeDelta: 0.008,
-          longitudeDelta: 0.008,
-        }}
-        style={styles.mapStyle}
-        onPress={handleSelectMapPosition}
-      >
-        {position.latitude !== 0 && (
-          <Marker
-            icon={mapMarkerImg}
-            coordinate={{
+    <>
+      <InstructionMap
+        zIndex={zIndexInstructions}
+        handleClick={handleClickMap}
+      />
+      {position.latitude !== 0 ? (
+        <View style={styles.container}>
+          <MapView
+            initialRegion={{
               latitude: position.latitude,
               longitude: position.longitude,
+              latitudeDelta: 0.02,
+              longitudeDelta: 0.02,
             }}
-          />
-        )}
-      </MapView>
-      {position.latitude !== 0 && (
-        <RectButton style={styles.nextButton} onPress={handleNextStep}>
-          <Text style={styles.nextButtonText}>Próximo</Text>
-        </RectButton>
+            style={styles.mapStyle}
+            onPress={handleSelectMapPosition}
+          >
+            <Marker
+              icon={mapMarkerImg}
+              coordinate={{
+                latitude: position.latitude,
+                longitude: position.longitude,
+              }}
+            />
+          </MapView>
+          <RectButton
+            style={styles.nextButton}
+            onPress={() => navigation.navigate('OrphanageData')}
+          >
+            <Text style={styles.nextButtonText}>Próximo</Text>
+          </RectButton>
+        </View>
+      ) : (
+        <ShimmerPlaceHolder
+          style={styles.mapStyle}
+          LinearGradient={LinearGradient}
+        />
       )}
-    </View>
+    </>
   );
 }
 

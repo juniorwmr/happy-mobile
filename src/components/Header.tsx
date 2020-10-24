@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useOrphanageData } from '../contexts/orphanagedata';
 
 interface IHeaderProps {
   title: string;
@@ -14,9 +15,28 @@ export const Header: React.FC<IHeaderProps> = ({
   showCancel = true,
 }) => {
   const navigation = useNavigation();
+  const {
+    setName,
+    setPosition,
+    setAbout,
+    setImages,
+    setInstructions,
+    setOpenOnWeekends,
+    setOpeningHours,
+  } = useOrphanageData();
 
   function handleNavigateToOrphanagesMap() {
     navigation.navigate('OrphanagesMap');
+    setName('');
+    setPosition({
+      latitude: 0,
+      longitude: 0,
+    });
+    setAbout('');
+    setImages([]);
+    setInstructions('');
+    setOpeningHours('');
+    setOpenOnWeekends(true);
   }
   return (
     <View style={styles.container}>

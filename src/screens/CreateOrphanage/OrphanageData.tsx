@@ -11,68 +11,27 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { LatLng } from 'react-native-maps';
-import * as ImagePicker from 'expo-image-picker';
-import { api } from '../../services/api';
+import { useNavigation } from '@react-navigation/native';
 
-interface IPositionFromParams {
-  position: LatLng;
-}
+import * as ImagePicker from 'expo-image-picker';
+
+import { useOrphanageData } from '../../contexts/orphanagedata';
 
 export default function OrphanageData() {
   const navigation = useNavigation();
-  const route = useRoute();
-  const { position } = route.params as IPositionFromParams;
-  const [name, setName] = useState('');
-  const [about, setAbout] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [opening_hours, setOpeningHours] = useState('');
-  const [open_on_weekends, setOpenOnWeekends] = useState(true);
-  const [images, setImages] = useState<string[]>([]);
+  const {
+    name,
+    setName,
+    about,
+    setAbout,
+    images,
+    setImages,
+  } = useOrphanageData();
 
-  async function handleCreateOrphanage() {
-    const { latitude, longitude } = position;
-    console.log({
-      name,
-      latitude,
-      longitude,
-      about,
-      instructions,
-      opening_hours,
-      open_on_weekends,
-      images,
-    });
-
-    const data = new FormData();
-
-    data.append('name', name);
-    data.append('about', about);
-    data.append('latitude', String(latitude));
-    data.append('longitude', String(longitude));
-    data.append('instructions', instructions);
-    data.append('opening_hours', opening_hours);
-    data.append('open_on_weekends', String(open_on_weekends));
-
-    images.forEach((image, index) => {
-      data.append('images', {
-        name: `image_${index}.jpg`,
-        type: 'image/jpg',
-        uri: image,
-      } as any);
-    });
-
-    const response = await api.post('/orphanages', data);
-    if (response.status == 201) {
-      alert('Cadastro efetuado com sucesso!');
-      navigation.navigate('OrphanagesMap');
-    }
-  }
-
-  async function handleSeelctImages() {
+  async function handleSelectImages() {
     const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
     if (status !== 'granted') {
-      alert('Eita, precisamos de acesso às suas fotos...');
+      alert('Eita, precisamos de acesso as suas fotos...');
       return;
     }
 
@@ -95,7 +54,15 @@ export default function OrphanageData() {
       style={styles.container}
       contentContainerStyle={{ padding: 24 }}
     >
-      <Text style={styles.title}>Dados</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Dados</Text>
+        <Text style={styles.stages}>
+          <Text style={{ ...styles.stages, fontFamily: 'Nunito_800ExtraBold' }}>
+            01
+          </Text>{' '}
+          - 02
+        </Text>
+      </View>
 
       <Text style={styles.label}>Nome</Text>
       <TextInput
@@ -117,47 +84,29 @@ export default function OrphanageData() {
 
       <Text style={styles.label}>Fotos</Text>
       <View style={styles.uploadedImageContainer}>
-        {images.map((image) => (
-          <Image
-            key={image}
-            source={{ uri: image }}
-            style={styles.uploadedImage}
-          />
-        ))}
+        {images &&
+          images.map((image: any) => (
+            <Image
+              key={image}
+              source={{ uri: image }}
+              style={styles.uploadedImage}
+            />
+          ))}
       </View>
-      <TouchableOpacity style={styles.imagesInput} onPress={handleSeelctImages}>
+      <TouchableOpacity style={styles.imagesInput} onPress={handleSelectImages}>
         <Feather name="plus" size={24} color="#15B6D6" />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Visitação</Text>
-
-      <Text style={styles.label}>Instruções</Text>
-      <TextInput
-        style={[styles.input, { height: 110 }]}
-        multiline
-        value={instructions}
-        onChangeText={(text) => setInstructions(text)}
-      />
-
-      <Text style={styles.label}>Horario de visitas</Text>
-      <TextInput
-        style={styles.input}
-        value={opening_hours}
-        onChangeText={(text) => setOpeningHours(text)}
-      />
-
-      <View style={styles.switchContainer}>
-        <Text style={styles.label}>Atende final de semana?</Text>
-        <Switch
-          value={open_on_weekends}
-          onValueChange={setOpenOnWeekends}
-          thumbColor="#fff"
-          trackColor={{ false: '#ccc', true: '#39CC83' }}
-        />
-      </View>
-
-      <RectButton style={styles.nextButton} onPress={handleCreateOrphanage}>
-        <Text style={styles.nextButtonText}>Cadastrar</Text>
+      <RectButton
+        style={
+          name && about && images[0]
+            ? styles.nextButton
+            : { ...styles.nextButton, opacity: 0.6 }
+        }
+        onPress={() => navigation.navigate('OrphanageVisitData')}
+        enabled={name && about && images[0] ? true : false}
+      >
+        <Text style={styles.nextButtonText}>Próximo</Text>
       </RectButton>
     </ScrollView>
   );
@@ -168,14 +117,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  title: {
-    color: '#5c8599',
-    fontSize: 24,
-    fontFamily: 'Nunito_700Bold',
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+
     marginBottom: 32,
     paddingBottom: 24,
     borderBottomWidth: 0.8,
     borderBottomColor: '#D3E2E6',
+
+    justifyContent: 'space-between',
+  },
+
+  stages: {
+    color: '#5c8599',
+    fontSize: 14,
+  },
+
+  title: {
+    color: '#5c8599',
+    fontSize: 24,
+    fontFamily: 'Nunito_700Bold',
   },
 
   label: {
@@ -213,20 +175,12 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
 
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 16,
-  },
-
   nextButton: {
     backgroundColor: '#15c3d6',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     height: 56,
-    marginTop: 32,
   },
 
   nextButtonText: {
