@@ -19,7 +19,6 @@ const HappyOnboarding: React.FC<{ onDoneFunction: () => void }> = ({
   onDoneFunction,
 }) => {
   const [selectedDotWidth] = useState(new Animated.Value(8));
-  const [buttonWidth] = useState(new Animated.Value(56));
 
   const NextButton = (onPress: () => void) => (
     <View style={styles.container}>
@@ -60,6 +59,7 @@ const HappyOnboarding: React.FC<{ onDoneFunction: () => void }> = ({
           if (selected) {
             selectedDotWidth.setValue(8);
             SelectedDotAnimation();
+          } else {
           }
           return (
             <Animated.View

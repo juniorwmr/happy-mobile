@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'react-native-linear-gradient';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
-import { View, StyleSheet, Dimensions, Text, Alert } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  Alert,
+  Animated,
+} from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';

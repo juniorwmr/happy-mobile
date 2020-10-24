@@ -49,7 +49,9 @@ export const Header: React.FC<IHeaderProps> = ({
           <Feather name="x" size={24} color="#ff669d" />
         </BorderlessButton>
       ) : (
-        <View />
+        <View>
+          <Feather name="x" size={24} style={{ opacity: 0 }} />
+        </View>
       )}
     </View>
   );
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9fafc',
     borderBottomWidth: 1,
     borderColor: '#dde3f0',
-    paddingTop: 55,
+    paddingTop: 64,
 
     flexDirection: 'row',
     alignItems: 'center',

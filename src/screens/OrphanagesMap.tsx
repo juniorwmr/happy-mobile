@@ -7,17 +7,10 @@ import mapMarker from '../images/map-marker.png';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 
-import { api } from '../services/api';
-
-interface IOrphanage {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-}
+import OrphanagesRepository, { IOrphanage } from '../repositories/orphanages';
 
 export default function OrphanagesMap() {
-  const [orphanages, setOrphanages] = useState<IOrphanage[]>([]);
+  const [orphanages, setOrphanages] = useState<IOrphanage[] | undefined>([]);
   const navigation = useNavigation();
 
   function handleNavigateToOrphanageDetails(id: number) {
@@ -29,8 +22,8 @@ export default function OrphanagesMap() {
 
   useFocusEffect(() => {
     async function loadOrphanages() {
-      const response = await api.get('/orphanages');
-      setOrphanages(response.data);
+      const response = await OrphanagesRepository.index();
+      setOrphanages(response?.data);
     }
     loadOrphanages();
   });
