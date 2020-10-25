@@ -16,9 +16,10 @@
 
 ### ✅ Features
 
+- [x] Onboarding
+- [x] Instruções para utilizar o mapa
 - [x] Cadastro de orfanato em múltiplas etapas
 - [x] Visualizar todos os orfanatos cadastrados
-- [x] Logout
 
 ### Pré-requisitos
 
