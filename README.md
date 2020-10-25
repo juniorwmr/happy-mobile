@@ -2,17 +2,23 @@
   <img alt="Happy" title="Happy" src="./public/capa_happy.png" width="1000px" />
 </h1>
 
-## Descrição do Projeto
+## 💻 Projeto
 
 <p align="center"></p>
 <h1 align="center">
     <a href="https://reactnative.dev/">🔗 React Native</a>
     <a href="https://www.sqlite.org/">🧠 Expo</a>
 </h1>
-<p align="center">🚀 O projeto está sendo desenvolvimento conforme o WorkShop Next Level Week.</p>
-<p align="center">É um projeto para gestão de visitas ao orfanato <strong>Happy</strong>.</p>
-<p align="center">Este projeto concentra-se na parte Mobile da aplicação <strong>Happy</strong>.</p>
-<p align="center"><strong>Esta aplicação usa <a href="https://www.typescriptlang.org/">Typescript</a></strong>.</p>
+<p align="center"><strong>Happy 2.0</strong> 🔥</p>
+<p align="center">É um projeto de gestão de visitas de orfanatos de Rio Branco - Acre.</p>
+<p align="center">Este, concentra-se na parte Frontend (Mobile) da aplicação <strong>Happy 2.0</strong>.</p>
+<p align="center"><i>Esta aplicação usa <a href="https://www.typescriptlang.org/">Typescript</a></i>.</p>
+
+### ✅ Features
+
+- [x] Cadastro de orfanato em múltiplas etapas
+- [x] Visualizar todos os orfanatos cadastrados
+- [x] Logout
 
 ### Pré-requisitos
 
@@ -28,6 +34,10 @@ $ git clone git@github.com:juniorwmr/happy-mobile.git
 
 # Acesse a pasta do projeto no terminal/cmd
 $ cd happy-mobile
+
+# Crie um arquivo chamado .env.json
+# - adicione a seguinte variável: API_URL. Coloque o endereço de nossa API "https://happy-acre-backend.herokuapp.com"
+$ touch .env.json
 
 # Instale as dependências
 $ expo install
