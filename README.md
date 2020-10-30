@@ -1,6 +1,6 @@
-<h1 align="center">
+<a href="https://play.google.com/store/apps/details?id=com.juniorwmr.happy" align="center">
   <img alt="Happy" title="Happy" src="./public/capa_happy.png" width="1000px" />
-</h1>
+</a>
 
 ## 💻 Projeto
 
